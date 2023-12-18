@@ -1,6 +1,7 @@
 import React from "react";
 
 import useShellStore from "shell/useShellStore";
+import "tailwindcss/tailwind.css";
 
 const Login = () => {
   const { count, increment, decrement } = useShellStore();
