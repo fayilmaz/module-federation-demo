@@ -1,9 +1,9 @@
 import React from "react";
 
 import useShellStore from "shell/useShellStore";
-// import Login from "auth/Login";
-// import Cart from "cart/Cart";
-// import Checkout from "checkout/Checkout";
+import Login from "auth/Login";
+import Cart from "cart/Cart";
+import Checkout from "checkout/Checkout";
 import Products from "products/Products";
 import { Button } from "shell/ui/Button";
 import Shell from "shell/Shell";
@@ -27,9 +27,9 @@ const Home = () => {
         >
           Decrement
         </Button>
-        {/* <Login />
-      <Cart />
-      <Checkout /> */}
+        <Login />
+        <Cart />
+        <Checkout />
         <Products />
       </div>
     </Shell>

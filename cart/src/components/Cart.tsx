@@ -1,31 +1,33 @@
 import React from "react";
 
+import Shell from "shell/Shell";
 import useShellStore from "shell/useShellStore";
+import { Button } from "shell/ui/Button";
 import "tailwindcss/tailwind.css";
 
 const Cart = () => {
   const { count, increment, decrement } = useShellStore();
 
   return (
-    <div className="p-2">
-      <div className="border-2 border-red-500 p-2">
-        <div>App: cart</div>
-        <div>Port: 3003</div>
-        <div>Count {count}</div>
-        <div
-          className="border-1 border-black rounded-xl  bg-green-400 p-1 w-44 text-center cursor-pointer"
-          onClick={() => increment()}
-        >
-          Increment
-        </div>
-        <div
-          className="border-1 border-black rounded-xl  bg-red-400 p-1 w-44 text-center cursor-pointer"
-          onClick={() => decrement()}
-        >
-          Decrement
+    <Shell>
+      <div className="p-2">
+        <div className="border-2 border-red-500 p-2">
+          <div>App: cart</div>
+          <div>Port: 3003</div>
+          <div>Count {count}</div>
+          <Button className="block mb-2" onClick={() => increment()}>
+            Increment
+          </Button>
+          <Button
+            className="block mb-2"
+            variant="destructive"
+            onClick={() => decrement()}
+          >
+            Decrement
+          </Button>
         </div>
       </div>
-    </div>
+    </Shell>
   );
 };
 
