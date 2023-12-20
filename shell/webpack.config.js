@@ -51,7 +51,11 @@ module.exports = (_, argv) => ({
         checkout: "checkout@http://localhost:3004/remoteEntry.js",
         products: "products@http://localhost:3005/remoteEntry.js",
       },
-      exposes: { "./useShellStore": "./src/store/shellStore.ts" },
+      exposes: {
+        "./Shell": "./src/Shell.tsx",
+        "./useShellStore": "./src/store/shellStore.ts",
+        "./ui/Button": "./components/ui/button.tsx",
+      },
       shared: {
         ...deps,
         react: {
