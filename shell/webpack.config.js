@@ -62,7 +62,8 @@ module.exports = (_, argv) => ({
       name: "shell",
       filename: "remoteEntry.js",
       remotes: {
-        shell: remoteURLs.shell,
+        shell:
+          remoteURLs.shell /* TODO: shell@${remoteBaseURL}:3000/remoteEntry.js*/,
         home: remoteURLs.home,
         auth: remoteURLs.auth,
         cart: remoteURLs.cart,

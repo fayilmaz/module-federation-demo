@@ -10,28 +10,30 @@ import Shell from "shell/Shell";
 import Nav from "./MainNav";
 import Header from "./Header";
 import { Routes, Route } from "react-router-dom";
+import ErrorBoundary from "../lib/ErrorBoundary";
 
 const Home = () => {
   const { count, increment, decrement } = useShellStore();
 
   return (
     <Shell>
-      <div className="border-2 border-blue-500">
-        <Header />
-        <div>Name: Home</div>
-        <Routes>
-          <Route path="/" element="home page" />
-          <Route path="checkout" element="checkout page" />
-          <Route path="cart" element="cart page" />
-          <Route path="products" element="products page" />
-          <Route path="auth" element="auth page" />
-        </Routes>
-
-        <Login />
-        <Cart />
-        <Checkout />
-        <Products />
-      </div>
+      <ErrorBoundary>
+        <div className="border-2 border-blue-500">
+          <Header />
+          <div>Name: Home</div>
+          <Routes>
+            <Route path="/" element="home page" />
+            <Route path="checkout" element="checkout page" />
+            <Route path="cart" element="cart page" />
+            <Route path="products" element="products page" />
+            <Route path="auth" element="auth page" />
+          </Routes>
+          <Login />
+          <Cart />
+          <Checkout />
+          <Products />
+        </div>
+      </ErrorBoundary>
     </Shell>
   );
 };
