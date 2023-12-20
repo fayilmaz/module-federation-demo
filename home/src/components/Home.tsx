@@ -27,6 +27,7 @@ const Home = () => {
             <Route path="cart" element="cart page" />
             <Route path="products" element="products page" />
             <Route path="auth" element="auth page" />
+            <Route path="*" element="fallback path" />
           </Routes>
           <Login />
           <Cart />
