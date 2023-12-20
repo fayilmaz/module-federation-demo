@@ -8,7 +8,7 @@ export const App = ({ children }) => {
   const { count, increment, decrement } = useShellStore();
   if (children) {
     return (
-      <div className="mt-10 text-3xl mx-auto max-w-6xl border-2 border-red-500">
+      <div className="text-3xl mx-auto max-w-6xl border-2 border-red-500">
         {children}
       </div>
     );
