@@ -1,30 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { UsersDto } from './dto/users-dto';
+import { UserDto } from './dto/user-dto';
 import { UserNotFoundException } from './exceptions/UserNotFoundException';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from './schemas/user.schema';
+import * as mongoose from 'mongoose';
+import { CreateUserDto } from './dto/create-user-dto';
 
 @Injectable()
 export class UsersService {
-  constructor() {}
+  constructor(
+    @InjectModel(User.name)
+    private UserModel: mongoose.Model<User>,
+  ) {}
 
-  getUsers(email: string): UsersDto {
-    const users = [
-      {
-        id: '1',
-        name: 'test',
-        email: 'test@mail.com',
-        password: 'test-password',
-      },
-      {
-        id: '2',
-        name: 'test2',
-        email: 'test2@mail.com',
-        password: 'test2-password',
-      },
-    ];
-    const user = users.find((user) => user.email === email);
-    if (!user) {
+  async getUserByEmail(userEmail: string): Promise<UserDto> {
+    const users = await this.UserModel.find();
+    const userFromDb = users.find((user) => user.email === userEmail);
+    if (!userFromDb) {
       throw new UserNotFoundException();
     }
+    const { _id, name, email, password } = userFromDb;
+    const user = { id: _id.toString(), name, email };
     return {
       announcementList: [],
       data: {
@@ -33,5 +29,26 @@ export class UsersService {
       success: true,
       error: null,
     };
+  }
+
+  async addUser(user: CreateUserDto): Promise<UserDto> {
+    const newUser = await this.UserModel.create(user);
+    if (newUser) {
+      const { _id, name, email } = newUser;
+      return {
+        announcementList: [
+          { code: 'PS001', message: 'User successfully created' },
+        ],
+        data: {
+          user: {
+            id: _id.toString(),
+            name,
+            email,
+          },
+        },
+        success: true,
+        error: null,
+      };
+    }
   }
 }

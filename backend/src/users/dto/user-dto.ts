@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../entities/user.entitity';
 import { Announcement } from 'src/commonDto/AnnouncementList';
 
-export class UsersDto {
+export class UserDto {
   @ApiProperty({
     type: Announcement,
     example: [{ code: 'PS001', message: 'user successfully found' }],
