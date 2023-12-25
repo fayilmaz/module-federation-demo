@@ -1,34 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import * as pokemonsData from './pokemons.json';
 import { PokemonsDto } from './dto/pokemons-dto';
 import { PokemonDto } from './dto/pokemon-dto';
 import { PokemonNotFoundException } from 'src/pokemons/exceptions/PokemonNotFoundException';
 import { PokemonsNotFoundException } from 'src/pokemons/exceptions/PokemonsNotFoundException';
+import { InjectModel } from '@nestjs/mongoose';
+import { Pokemon } from './schemas/pokemons.schema';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class PokemonsService {
-  constructor() {}
+  constructor(
+    @InjectModel(Pokemon.name)
+    private PokemonModel: mongoose.Model<Pokemon>,
+  ) {}
 
-  getPokemons(): PokemonsDto {
-    if (!pokemonsData?.pokemons?.length) {
+  async getPokemons(): Promise<PokemonsDto> {
+    const pokemons = await this.PokemonModel.find({}, { _id: false });
+
+    if (!pokemons?.length) {
       throw new PokemonsNotFoundException();
     }
     return {
       announcementList: [],
       data: {
-        count: pokemonsData.pokemons.length,
-        nameList: pokemonsData.pokemons.map((pokemon) => pokemon.name),
-        pokemons: pokemonsData.pokemons,
+        count: pokemons.length,
+        nameList: pokemons.map((pokemon) => pokemon.name),
+        pokemons: pokemons,
       },
       success: true,
       error: null,
     };
   }
 
-  getPokemonById(id: string): PokemonDto {
-    const pokemon = pokemonsData.pokemons.find((pokemon) => {
-      return pokemon.id === Number(id);
-    });
+  async getPokemonById(id: string): Promise<PokemonDto> {
+    const pokemon = await this.PokemonModel.findOne({ id }, { _id: false });
     if (!pokemon) {
       throw new PokemonNotFoundException();
     }

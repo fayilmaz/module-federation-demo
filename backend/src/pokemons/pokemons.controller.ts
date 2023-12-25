@@ -22,7 +22,7 @@ export class PokemonsController {
     description: 'Could Not Get Pokemons',
   })
   @Get()
-  getPokemons(): PokemonsDto {
+  async getPokemons(): Promise<PokemonsDto> {
     return this.pokemonsService.getPokemons();
   }
 
@@ -38,7 +38,7 @@ export class PokemonsController {
     description: 'ID of the Pokemon',
   })
   @Get(':id')
-  getPokemon(@Param('id') id: string): PokemonDto {
+  getPokemon(@Param('id') id: string): Promise<PokemonDto> {
     return this.pokemonsService.getPokemonById(id);
   }
 }
