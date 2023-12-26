@@ -5,6 +5,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import * as mongoose from 'mongoose';
 import { CreateUserDto } from './dto/create-user-dto';
+import { UserAlreadyExistsException } from './exceptions/UserAlreadyExistsException';
+import { CommonErrorException } from 'commonExceptions/CommonErrorException';
+import { MongoErrorCodes } from './enums';
 
 @Injectable()
 export class UsersService {
@@ -32,23 +35,29 @@ export class UsersService {
   }
 
   async addUser(user: CreateUserDto): Promise<UserDto> {
-    const newUser = await this.UserModel.create(user);
-    if (newUser) {
-      const { _id, name, email } = newUser;
-      return {
-        announcementList: [
-          { code: 'PS001', message: 'User successfully created' },
-        ],
-        data: {
-          user: {
-            id: _id.toString(),
-            name,
-            email,
+    try {
+      const newUser = await this.UserModel.create(user);
+      if (newUser) {
+        const { name, email } = newUser;
+        return {
+          announcementList: [
+            { code: 'PS001', message: 'User successfully created' },
+          ],
+          data: {
+            user: {
+              name,
+              email,
+            },
           },
-        },
-        success: true,
-        error: null,
-      };
+          success: true,
+          error: null,
+        };
+      }
+    } catch (error) {
+      if (error.code === MongoErrorCodes.USER_EXISTS) {
+        throw new UserAlreadyExistsException();
+      }
+      throw new CommonErrorException(error);
     }
   }
 }
