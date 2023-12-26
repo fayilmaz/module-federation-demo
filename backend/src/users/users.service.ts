@@ -7,7 +7,7 @@ import * as mongoose from 'mongoose';
 import { CreateUserDto } from './dto/create-user-dto';
 import { UserAlreadyExistsException } from './exceptions/UserAlreadyExistsException';
 import { CommonErrorException } from 'commonExceptions/CommonErrorException';
-import { MongoErrorCodes } from './enums';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -35,9 +35,22 @@ export class UsersService {
   }
 
   async addUser(user: CreateUserDto): Promise<UserDto> {
+    const session = await this.UserModel.startSession();
+    session.startTransaction();
     try {
+      const existingUser = await this.UserModel.findOne({ email: user.email });
+      if (existingUser) {
+        throw new UserAlreadyExistsException();
+      }
+
+      const saltRounds = 15;
+      const salt = await bcrypt.genSalt(saltRounds);
+      const passwordHash = await bcrypt.hash(user.password, salt);
+      user.password = passwordHash;
+
       const newUser = await this.UserModel.create(user);
-      if (newUser) {
+      if (newUser?.email) {
+        session.commitTransaction();
         const { name, email } = newUser;
         return {
           announcementList: [
@@ -54,10 +67,14 @@ export class UsersService {
         };
       }
     } catch (error) {
-      if (error.code === MongoErrorCodes.USER_EXISTS) {
-        throw new UserAlreadyExistsException();
+      await session.abortTransaction();
+      if (error instanceof UserAlreadyExistsException) {
+        throw error;
+      } else {
+        throw new CommonErrorException(error);
       }
-      throw new CommonErrorException(error);
+    } finally {
+      session.endSession();
     }
   }
 }
