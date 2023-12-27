@@ -61,11 +61,12 @@ module.exports = (_, argv) => ({
   plugins: [
     new Dotenv({
       path:
-        process.env.NODE_ENV === development ? "./.env" : "./.env.production",
+        process.env.NODE_ENV === "development" ? "./.env" : "./.env.production",
       safe: true,
       allowEmptyValues: true,
-      systemvars: true, 
+      systemvars: true,
       silent: false,
+    }),
     new ModuleFederationPlugin({
       name: "shell",
       filename: "remoteEntry.js",
