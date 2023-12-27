@@ -16,6 +16,11 @@ export class UsersService {
     private UserModel: mongoose.Model<User>,
   ) {}
 
+  async findOneUser(userEmail: string) {
+    const user = await this.UserModel.findOne({ email: userEmail });
+    return user;
+  }
+
   async getUserByEmail(userEmail: string): Promise<UserDto> {
     const users = await this.UserModel.find();
     const userFromDb = users.find((user) => user.email === userEmail);
