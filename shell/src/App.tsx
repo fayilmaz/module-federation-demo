@@ -1,8 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { JSXElementConstructor, ReactNode } from "react";
+import * as ReactDOM from "react-dom/client";
 
 import "./index.scss";
 import useShellStore from "./store/shellStore";
+import { getApi, postApi } from "./api";
 
 export const App = ({ children }) => {
   const { count, increment, decrement } = useShellStore();
@@ -21,5 +22,4 @@ export const App = ({ children }) => {
     );
   }
 };
-
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.createRoot(document.getElementById("app")).render(<App />);

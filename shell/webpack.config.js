@@ -1,3 +1,4 @@
+const Dotenv = require("dotenv-webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
@@ -58,12 +59,17 @@ module.exports = (_, argv) => ({
   },
 
   plugins: [
+    new Dotenv({
+      path:
+        process.env.NODE_ENV === development ? "./.env" : "./.env.production",
+      safe: true,
+      allowEmptyValues: true,
+      systemvars: true, 
+      silent: false,
     new ModuleFederationPlugin({
       name: "shell",
       filename: "remoteEntry.js",
       remotes: {
-        shell:
-          remoteURLs.shell /* TODO: shell@${remoteBaseURL}:3000/remoteEntry.js*/,
         home: remoteURLs.home,
         auth: remoteURLs.auth,
         cart: remoteURLs.cart,
