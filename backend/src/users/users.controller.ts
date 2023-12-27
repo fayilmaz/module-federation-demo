@@ -5,6 +5,7 @@ import { UsersRequestDto } from './dto/users-request-dto';
 import { UserDto } from './dto/user-dto';
 import { UserErrorDto } from './dto/user-error-response-dto';
 import { CreateUserDto } from './dto/create-user-dto';
+import { Public } from 'decorators/public';
 
 @ApiTags('usersController')
 @Controller('users')
@@ -19,11 +20,13 @@ export class UsersController {
     type: UserErrorDto,
     description: 'User Not Found',
   })
+  @Public()
   @Post()
   getUser(@Body() body: UsersRequestDto): Promise<UserDto> {
     return this.usersService.getUserByEmail(body.email);
   }
 
+  @Public()
   @Post('/create')
   addUser(@Body() body: CreateUserDto): Promise<UserDto> {
     return this.usersService.addUser(body);

@@ -10,7 +10,9 @@ import { PokemonDto } from './dto/pokemon-dto';
 import { PokemonsDto } from './dto/pokemons-dto';
 import { PokemonErrorResponseDto } from './dto/pokemon-error-response-dto';
 import { PokemonsErrorResponseDto } from './dto/pokemons-error-response-dto';
+import { Public } from 'decorators/public';
 
+@Public()
 @ApiTags('pokemons')
 @Controller('pokemons')
 export class PokemonsController {
@@ -26,6 +28,7 @@ export class PokemonsController {
     return this.pokemonsService.getPokemons();
   }
 
+  @Public()
   @ApiOkResponse({ type: PokemonDto })
   @ApiNotFoundResponse({
     type: PokemonErrorResponseDto,

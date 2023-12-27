@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { StatusModule } from './status/status.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     PokemonsModule,
     UsersModule,
     StatusModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
