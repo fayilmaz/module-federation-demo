@@ -6,7 +6,8 @@
     "build:dev": "webpack --mode development",
     "build:start": "cd dist && PORT=7000 npx serve",
     "start": "NODE_ENV=development webpack serve --open --mode development",
-    "start:live": "NODE_ENV=development webpack serve --open --mode development --live-reload --hot"
+    "start:live": "NODE_ENV=development webpack serve --open --mode development --live-reload --hot",
+    "start:live-no-open": "NODE_ENV=development webpack serve --mode development --live-reload --hot"
   },
   "license": "MIT",
   "author": "Fahrettin Yılmaz",

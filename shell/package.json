@@ -11,7 +11,9 @@
     "start-uitest": "concurrently \"npm start\" \"cd ../home/ && npm start\" \"cd ../products/ && npm start\"",
     "start-all": "concurrently \"npm start\" \"cd ../home/ && npm start\" \"cd ../auth/ && npm start\" \"cd ../cart/ && npm start\" \"cd ../checkout/ && npm start\" \"cd ../products/ && npm start\"",
     "start-all:live": "concurrently \"npm run start:live\" \"cd ../home/ && npm run start:live\" \"cd ../auth/ && npm run start:live\" \"cd ../cart/ && npm run start:live\" \"cd ../checkout/ && npm run start:live\" \"cd ../products/ && npm run start:live\"",
-    "start:live": "NODE_ENV=development webpack serve --open --mode development --live-reload --hot"
+    "start-all:live-no-open": "concurrently \"npm run start:live-no-open\" \"cd ../home/ && npm run start:live-no-open\" \"cd ../auth/ && npm run start:live-no-open\" \"cd ../cart/ && npm run start:live-no-open\" \"cd ../checkout/ && npm run start:live-no-open\" \"cd ../products/ && npm run start:live-no-open\"",
+    "start:live": "NODE_ENV=development webpack serve --open --mode development --live-reload --hot",
+    "start:live-no-open": "NODE_ENV=development webpack serve --mode development --live-reload --hot"
   },
   "license": "MIT",
   "author": "Fahrettin Yılmaz",
