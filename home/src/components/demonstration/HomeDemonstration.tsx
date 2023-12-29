@@ -29,6 +29,9 @@ const Home = () => {
             <Route path="auth" element="auth page" />
             <Route path="*" element="fallback path" />
           </Routes>
+          <Login />
+          <Cart />
+          <Checkout />
           <Products />
         </div>
       </ErrorBoundary>

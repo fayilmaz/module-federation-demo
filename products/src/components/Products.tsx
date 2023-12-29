@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import useShellStore from "shell/useShellStore";
-import { Button } from "shell/ui/Button";
 import Shell from "shell/Shell";
 import ErrorBoundary from "../lib/ErrorBoundary";
 import { getApi } from "../api";
 import { IPokemon } from "../types/pokemon";
-import Product from "./Product";
+import ProductCard from "./ProductCard";
 
 const Products = () => {
   const { count, increment, decrement } = useShellStore();
@@ -18,16 +17,14 @@ const Products = () => {
     });
   });
   return (
-    <Shell>
-      <ErrorBoundary>
-        <div className="p-2 bg-blue-400">
-          <div className="border-2 border-red-500 p-2">
-            {pokemons.length > 0 &&
-              pokemons.map((p, i) => <Product key={i} pokemon={p} />)}
-          </div>
+    <ErrorBoundary>
+      <div className="p-2 bg-blue-400">
+        <div className="p-2 flex flex-wrap justify-around">
+          {pokemons.length > 0 &&
+            pokemons.map((p, i) => <ProductCard key={i} pokemon={p} />)}
         </div>
-      </ErrorBoundary>
-    </Shell>
+      </div>
+    </ErrorBoundary>
   );
 };
 

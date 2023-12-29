@@ -5,14 +5,14 @@ import "./index.scss";
 import useShellStore from "./store/shellStore";
 import { getApi, postApi } from "./api";
 
-export const App = ({ children }) => {
+interface IProps {
+  children: React.FunctionComponent | Record<string, never> | null;
+}
+
+export const App = ({ children }: IProps) => {
   const { count, increment, decrement } = useShellStore();
   if (children) {
-    return (
-      <div className="text-3xl mx-auto max-w-6xl border-2 border-red-500">
-        {children}
-      </div>
-    );
+    return <div className="text-3xl mx-auto max-w-6xl">{children}</div>;
   } else {
     return (
       <div className="text-center mt-10">
@@ -22,4 +22,6 @@ export const App = ({ children }) => {
     );
   }
 };
-ReactDOM.createRoot(document.getElementById("app")).render(<App />);
+ReactDOM.createRoot(document.getElementById("app")).render(
+  <App children={null} />
+);
