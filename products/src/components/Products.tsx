@@ -18,10 +18,12 @@ const Products = () => {
   });
   return (
     <ErrorBoundary>
-      <div className="p-2 bg-blue-400">
-        <div className="p-2 flex flex-wrap justify-around">
-          {pokemons.length > 0 &&
-            pokemons.map((p, i) => <ProductCard key={i} pokemon={p} />)}
+      <div className="w-full pt-8 bg-blue-400">
+        <div className="mx-auto w-3/4">
+          <div className="flex flex-wrap justify-between">
+            {pokemons.length > 0 &&
+              pokemons.map((p, i) => <ProductCard key={i} pokemon={p} />)}
+          </div>
         </div>
       </div>
     </ErrorBoundary>

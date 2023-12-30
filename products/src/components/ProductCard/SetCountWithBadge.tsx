@@ -1,13 +1,14 @@
 import React from "react";
 import { Button } from "shell/ui/Button";
-import PokeBallSvg from "./PokeBallSvg";
+import PokeBallSvg from "../svg/PokeBallSvg";
 
-type CartWithBadgeProps = {
+type SetCountWithBadgeProps = {
   inCartCount: number;
 };
 
-export const CartWithBadge = (props: CartWithBadgeProps) => {
-  const inCartCount = props.inCartCount ? props.inCartCount : null;
+export const SetCountWithBadge = ({
+  inCartCount = 0,
+}: SetCountWithBadgeProps) => {
   return (
     <div className="flex justify-center items-center">
       <Button className="bg-blue-400 text-md w-10 h-10">-</Button>

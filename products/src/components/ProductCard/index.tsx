@@ -2,7 +2,7 @@ import React from "react";
 import { IPokemon } from "../../types/pokemon";
 import DisplayPrice from "./DisplayPrice";
 import AddToCartButton from "./AddToCartButton";
-import { CartWithBadge } from "../svg/CartWithBadge";
+import { SetCountWithBadge } from "./SetCountWithBadge";
 import { cn } from "../../lib/utils";
 
 interface IProps {
@@ -15,19 +15,19 @@ const ProductCard = ({ pokemon, inCartCount = 0 }: IProps) => {
     inCartCount = 2;
   }
   return (
-    <div className="rounded mx-1 mb-8 shadow-md">
+    <div className="rounded mb-8 shadow-md">
       {pokemon ? (
         <div className="mx-auto w-80 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md hover:scale-150 hover:shadow-lg">
-          <div className="cursor-pointer">
+          <div
+            onClick={() => console.warn("handle click pokemon card")}
+            className="cursor-pointer"
+          >
             <img
               className="h-48 w-full object-cover object-center p-5 cursor-pointer"
               src="https://picsum.photos/500/300"
               alt={`${pokemon.name} image`}
             />
-            <div
-              onClick={() => console.warn("clicked card body")}
-              className="px-4 pt-4 cursor-pointer"
-            >
+            <div className="px-4 pt-4 cursor-pointer">
               <h2 className="mb-2 text-lg font-medium dark:text-white text-gray-900">
                 {pokemon.name}
               </h2>
@@ -48,7 +48,7 @@ const ProductCard = ({ pokemon, inCartCount = 0 }: IProps) => {
                 )}
               >
                 {!!inCartCount ? (
-                  <CartWithBadge inCartCount={inCartCount} />
+                  <SetCountWithBadge inCartCount={inCartCount} />
                 ) : (
                   <AddToCartButton />
                 )}

@@ -7,7 +7,7 @@ import Home from "./components/Home";
 const App = () => {
   return (
     <Router>
-      <div className="mt-10 text-3xl mx-auto max-w-6xl border-2 border-blue-500">
+      <div className="text-xl px- mx-auto max-w-full">
         <Home />
       </div>
     </Router>

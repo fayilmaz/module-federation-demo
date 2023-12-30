@@ -18,19 +18,16 @@ const Home = () => {
   return (
     <Shell>
       <ErrorBoundary>
-        <div className="border-2 border-blue-500">
-          <Header />
-          <div>Name: Home</div>
-          <Routes>
-            <Route path="/" element="home page" />
-            <Route path="checkout" element="checkout page" />
-            <Route path="cart" element="cart page" />
-            <Route path="products" element="products page" />
-            <Route path="auth" element="auth page" />
-            <Route path="*" element="fallback path" />
-          </Routes>
-          <Products />
-        </div>
+        <Header />
+        <Routes>
+          <Route path="/" element="home page" />
+          <Route path="checkout" element="checkout page" />
+          <Route path="cart" element="cart page" />
+          <Route path="pokemons" element="pokemons page" />
+          <Route path="auth/login" element="login page" />
+          <Route path="*" element="fallback path" />
+        </Routes>
+        <Products />
       </ErrorBoundary>
     </Shell>
   );

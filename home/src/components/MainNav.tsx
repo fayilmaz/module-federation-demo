@@ -6,53 +6,41 @@ const MainNav = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) => {
-  const menuItems = [
+  const navItems = [
     {
       href: "/",
-      className: "text-m font-medium transition-colors hover:text-primary",
+      className: "text-m font-medium transition-colors hover:text-yellow-400",
       label: "Home",
     },
     {
-      href: "/products",
+      href: "/pokemons",
       className:
-        "text-m font-medium text-muted-foreground transition-colors hover:text-primary",
-      label: "Products",
-    },
-    {
-      href: "/Cart",
-      className:
-        "text-m font-medium text-muted-foreground transition-colors hover:text-primary",
-      label: "Cart",
-    },
-    {
-      href: "/auth",
-      className:
-        "text-m font-medium text-muted-foreground transition-colors hover:text-primary",
-      label: "Login",
+        "text-m font-medium text-muted-foreground transition-colors hover:text-white",
+      label: "Pokemons",
     },
     {
       href: "/checkout",
       className:
-        "text-m font-medium text-muted-foreground transition-colors hover:text-primary",
+        "text-m font-medium text-muted-foreground transition-colors hover:text-white",
       label: "Checkout",
     },
   ];
 
   return (
-    <nav
-      className={cn(
-        "flex items-center justify-center space-x-4 lg:space-x-6 w-full",
-        className
-      )}
-      {...props}
-    >
-      {menuItems.map((item) => {
-        return (
-          <Link to={item.href} className={item.className}>
-            {item.label}
-          </Link>
-        );
-      })}
+    <nav className={cn("", className)} {...props}>
+      <div className="px-2 flex-3 flex gap-4">
+        {navItems.map((item, i) => {
+          return (
+            <Link
+              key={item.label}
+              to={item.href}
+              className={cn(item.className, "")}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 };

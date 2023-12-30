@@ -12,7 +12,7 @@ interface IProps {
 export const App = ({ children }: IProps) => {
   const { count, increment, decrement } = useShellStore();
   if (children) {
-    return <div className="text-3xl mx-auto max-w-6xl">{children}</div>;
+    return <div>{children}</div>;
   } else {
     return (
       <div className="text-center mt-10">
