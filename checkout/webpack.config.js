@@ -1,6 +1,7 @@
 const Dotenv = require("dotenv-webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const path = require("path");
 
 const remoteURLs = {
   shell:
@@ -33,6 +34,9 @@ module.exports = (_, argv) => ({
   devServer: {
     port: 3004,
     historyApiFallback: true,
+    static: {
+      directory: path.resolve(__dirname, "dist"),
+    },
   },
 
   module: {
@@ -54,6 +58,10 @@ module.exports = (_, argv) => ({
         use: {
           loader: "babel-loader",
         },
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        type: "asset/resource", // Using 'asset/resource' instead of 'file-loader'
       },
     ],
   },
