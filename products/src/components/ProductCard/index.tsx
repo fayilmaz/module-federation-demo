@@ -25,7 +25,7 @@ const ProductCard = ({ pokemon, inCartCount = 0 }: IProps) => {
             <img
               className="h-48 w-full object-cover object-center p-5 cursor-pointer"
               src="https://picsum.photos/500/300"
-              alt={`${pokemon.name} image`}
+              alt={`${pokemon.name}-image`}
             />
             <div className="px-4 pt-4 cursor-pointer">
               <h2 className="mb-2 text-lg font-medium dark:text-white text-gray-900">
@@ -38,10 +38,10 @@ const ProductCard = ({ pokemon, inCartCount = 0 }: IProps) => {
           </div>
           <div className="p-4">
             <div className="flex items-center">
-              <p className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">
+              <div className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">
                 <DisplayPrice price="100.00" />
-              </p>
-              <p
+              </div>
+              <div
                 className={cn(
                   "ml-auto text-base font-medium text-green-500",
                   !inCartCount && "h-16 flex items-center"
@@ -52,7 +52,7 @@ const ProductCard = ({ pokemon, inCartCount = 0 }: IProps) => {
                 ) : (
                   <AddToCartButton />
                 )}
-              </p>
+              </div>
             </div>
           </div>
         </div>

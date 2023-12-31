@@ -8,21 +8,23 @@ import { IPokemon } from "../types/pokemon";
 import ProductCard from "./ProductCard";
 
 const Products = () => {
-  const { count, increment, decrement } = useShellStore();
-  const [pokemons, setPokemons] = useState<IPokemon[] | []>([]);
+  const { count, increment, decrement, getPokemons, pokemonsState } =
+    useShellStore();
   useEffect(() => {
-    getApi("/pokemons").then((res) => {
-      if (!res) return;
-      setPokemons(res.data.pokemons);
-    });
-  });
+    getPokemons();
+  }, []);
   return (
     <ErrorBoundary>
       <div className="w-full pt-8 bg-blue-400">
         <div className="mx-auto w-3/4">
           <div className="flex flex-wrap justify-between">
-            {pokemons.length > 0 &&
-              pokemons.map((p, i) => <ProductCard key={i} pokemon={p} />)}
+            {pokemonsState.fetching ? (
+              <p className="text-red-400 text-2xl mx-auto py-20">LOADING...</p>
+            ) : pokemonsState.data?.pokemons?.length > 0 ? (
+              pokemonsState.data?.pokemons.map((p: IPokemon, i: number) => (
+                <ProductCard key={i} pokemon={p} />
+              ))
+            ) : null}
           </div>
         </div>
       </div>

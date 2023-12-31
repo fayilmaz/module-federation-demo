@@ -6,12 +6,12 @@ export const getApi = async (url: string) => {
     .then((res) => res.data)
     .catch((error) => {
       if (error.response && error.response.status === 401) {
-        return error;
+        throw error;
       }
       if (error.response && error.response.status === 404) {
-        return error;
+        throw error;
       } else {
-        return error;
+        throw error;
       }
     });
 };
@@ -22,12 +22,12 @@ export const postApi = async (url: string, payload: any) => {
     .then((res) => res.data)
     .catch((error) => {
       if (error.response && error.response.status === 401) {
-        return error;
+        throw error;
       }
       if (error.response && error.response.status === 404) {
-        return error;
+        throw error;
       } else {
-        return error;
+        throw error;
       }
     });
 };

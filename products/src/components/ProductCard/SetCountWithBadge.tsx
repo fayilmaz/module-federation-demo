@@ -14,9 +14,9 @@ export const SetCountWithBadge = ({
       <Button className="bg-blue-400 text-md w-10 h-10">-</Button>
       <div className="relative mx-1">
         <div className="t-0 absolute left-3">
-          <p className="flex h-2 w-2 items-center justify-center rounded-full border-2 border-white bg-red-500 p-3 text-xs text-white">
+          <div className="flex h-2 w-2 items-center justify-center rounded-full border-2 border-white bg-red-500 p-3 text-xs text-white">
             {inCartCount}
-          </p>
+          </div>
         </div>
         <PokeBallSvg style={{ maxWidth: "35px" }} />
       </div>
