@@ -1,4 +1,5 @@
-import axios, { AxiosError } from "axios";
+import useShellStore from "./store/shellStore";
+import axios from "axios";
 import { handleRequestError, handleResponseError } from "./api/errorHandling";
 
 const axiosInstance = axios.create({
@@ -7,7 +8,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("jwtToken");
+    const token =
+      localStorage.getItem("jwtToken") ||
+      useShellStore.getState()?.userState?.loginData?.data?.access_token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

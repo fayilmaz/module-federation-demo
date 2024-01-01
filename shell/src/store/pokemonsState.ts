@@ -41,6 +41,7 @@ export const createPokemonsSlice: ImmerStateCreator<PokemonsState> = (
             error: null,
           },
         }));
+        return pokemonsRes;
       }
     } catch (err: AxiosError | any) {
       set((state) => {
@@ -53,6 +54,7 @@ export const createPokemonsSlice: ImmerStateCreator<PokemonsState> = (
           },
         };
       });
+      return err.response.data;
     } finally {
       set((state) => {
         state.pokemonsState.fetching = false;

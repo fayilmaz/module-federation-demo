@@ -2,8 +2,13 @@ import React from "react";
 import MainNav from "./MainNav";
 import Logo from "../../public/assets/logo.png";
 import { Link } from "react-router-dom";
+import { Button } from "shell/ui/Button";
+import useShellStore from "shell/useShellStore";
+import UserDropDownMenu from "./UserDropDownMenu";
 
 const Header = () => {
+  const { userState } = useShellStore();
+  const isLoggedIn = userState.loginData?.data?.user?.email;
   return (
     <header className="h-20 bg-red-600 text-white">
       <div className="mx-auto w-3/4">
@@ -14,11 +19,19 @@ const Header = () => {
           <MainNav />
           <div className="flex-1 flex justify-end gap-2">
             <Link key="cart" to="/cart">
-              Cart
+              <Button variant="outline" className="text-black">
+                Cart
+              </Button>
             </Link>
-            <Link key="login" to="/auth/login">
-              Login
-            </Link>
+            {isLoggedIn ? (
+              <UserDropDownMenu />
+            ) : (
+              <Link key="login" to="/auth/login">
+                <Button variant="outline" className="text-black">
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

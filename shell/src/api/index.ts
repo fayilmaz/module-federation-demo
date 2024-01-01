@@ -1,19 +1,20 @@
+import { AxiosError } from "axios";
 import axiosInstance from "../axios";
 
 export const getApi = async (url: string) => {
-  return axiosInstance
-    .get(url)
-    .then((res) => res.data)
-    .catch((error) => {
-      if (error.response && error.response.status === 401) {
+  try {
+    const response = await axiosInstance.get(url);
+    return response.data;
+  } catch (error: AxiosError | any) {
+    if (error.response) {
+      const { status } = error.response;
+      if (status === 401 || status === 404) {
         throw error;
       }
-      if (error.response && error.response.status === 404) {
-        throw error;
-      } else {
-        throw error;
-      }
-    });
+    } else {
+      throw new Error("An error occured while fetching data");
+    }
+  }
 };
 
 export const postApi = async (url: string, payload: any) => {
@@ -21,13 +22,13 @@ export const postApi = async (url: string, payload: any) => {
     .post(url, { ...payload })
     .then((res) => res.data)
     .catch((error) => {
-      if (error.response && error.response.status === 401) {
-        throw error;
-      }
-      if (error.response && error.response.status === 404) {
-        throw error;
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 401 || status === 404) {
+          throw error;
+        }
       } else {
-        throw error;
+        throw new Error("An error occured while fetching data");
       }
     });
 };

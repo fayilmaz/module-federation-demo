@@ -89,6 +89,11 @@ module.exports = (_, argv) => ({
         "./Shell": "./src/Shell.tsx",
         "./useShellStore": "./src/store/shellStore.ts",
         "./ui/Button": "./components/ui/button.tsx",
+        "./ui/ButtonWithLoading": "./components/ui/ButtonWithLoading.tsx",
+        "./ui/NavigationMenu": "./components/ui/NavigationMenu.tsx",
+        "./ui/Form": "./components/ui/Form.tsx",
+        "./ui/Input": "./components/ui/Input.tsx",
+        "./ui/Label": "./components/ui/Label.tsx",
       },
       shared: {
         ...deps,

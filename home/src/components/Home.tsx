@@ -18,16 +18,17 @@ const Home = () => {
   return (
     <Shell>
       <ErrorBoundary>
-        <Header />
-        <Routes>
-          <Route path="/" element="home page" />
-          <Route path="checkout" element="checkout page" />
-          <Route path="cart" element="cart page" />
-          <Route path="pokemons" element="pokemons page" />
-          <Route path="auth/login" element="login page" />
-          <Route path="*" element="fallback path" />
-        </Routes>
-        <Products />
+        <>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Products />} />
+            <Route path="checkout" element="checkout page" />
+            <Route path="cart" element="cart page" />
+            <Route path="pokemons" element={<Products />} />
+            <Route path="auth/login" element={<Login />} />
+            <Route path="*" element="fallback path" />
+          </Routes>
+        </>
       </ErrorBoundary>
     </Shell>
   );

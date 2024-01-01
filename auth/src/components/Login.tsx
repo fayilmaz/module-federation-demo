@@ -1,36 +1,35 @@
 import React from "react";
 
-import Shell from "shell/Shell";
 import useShellStore from "shell/useShellStore";
-import { Button } from "shell/ui/Button";
+
 import "tailwindcss/tailwind.css";
 import ErrorBoundary from "../lib/ErrorBoundary";
+import LoginForm from "./LoginForm";
+import { goTo } from "../lib/utils";
 
 const Login = () => {
-  const { count, increment, decrement } = useShellStore();
+  const { login } = useShellStore();
+  const handleLogin = (formValues: { email: string; password: string }) => {
+    login(formValues).then((res) => {
+      if (res && res.success) {
+        goTo("/pokemons");
+      }
+    });
+  };
 
   return (
-    <Shell>
-      <ErrorBoundary>
-        <div className="p-2">
-          <div className="border-2 border-red-500 p-2">
-            <div>App: auth</div>
-            <div>Port: 3002</div>
-            <div>Count {count}</div>
-            <Button className="block mb-2" onClick={() => increment()}>
-              Increment
-            </Button>
-            <Button
-              className="block mb-2"
-              variant="destructive"
-              onClick={() => decrement()}
-            >
-              Decrement
-            </Button>
+    <ErrorBoundary>
+      <div className="w-full flex grow overflow-y-auto pt-8 bg-blue-400">
+        <div className="mx-auto justify-center flex flex-col">
+          <div className="h-auto bg-white p-5 rounded-2xl lg:min-w-[400px] md:min-w-[400px]">
+            <h3 className="mx-auto text-center">Login Form</h3>
+            <div className="w-50 pt-5">
+              <LoginForm handleLogin={handleLogin} />
+            </div>
           </div>
         </div>
-      </ErrorBoundary>
-    </Shell>
+      </div>
+    </ErrorBoundary>
   );
 };
 

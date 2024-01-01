@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 
 import useShellStore from "shell/useShellStore";
-import Shell from "shell/Shell";
 import ErrorBoundary from "../lib/ErrorBoundary";
-import { getApi } from "../api";
 import { IPokemon } from "../types/pokemon";
 import ProductCard from "./ProductCard";
+import { AxiosResponse } from "axios";
 
 const Products = () => {
   const { count, increment, decrement, getPokemons, pokemonsState } =
     useShellStore();
   useEffect(() => {
-    getPokemons();
+    getPokemons().then((res: AxiosResponse) => {
+      console.log("/pokemons response", res);
+    });
   }, []);
   return (
     <ErrorBoundary>

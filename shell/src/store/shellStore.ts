@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { createPokemonsSlice } from "./pokemonsState";
+import { createUserSlice } from "./userState";
 
 type ShellStore = {
   count: number;
@@ -46,7 +47,9 @@ type CartItem = {
 };
 
 const useShellStore = create<
-  ShellStore & ReturnType<typeof createPokemonsSlice>
+  ShellStore &
+    ReturnType<typeof createPokemonsSlice> &
+    ReturnType<typeof createUserSlice>
 >()(
   devtools(
     immer((set, get, store) => ({
@@ -73,6 +76,7 @@ const useShellStore = create<
         })),
       clearCart: () => set(() => ({ cart: [] })),
       ...createPokemonsSlice(set, get, store),
+      ...createUserSlice(set, get, store),
     })),
     {
       name: "ShellStore",
