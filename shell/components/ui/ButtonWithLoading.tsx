@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, ButtonProps } from "./button";
+import { Button, ButtonProps } from "./Button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 interface ButtonWithLoadingProps extends ButtonProps {

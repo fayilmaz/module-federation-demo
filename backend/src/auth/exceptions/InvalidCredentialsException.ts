@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
-export class EmailAndPasswordDontMatchException extends HttpException {
+export class InvalidCredentialsException extends HttpException {
   constructor() {
     super(
       {

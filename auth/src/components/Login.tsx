@@ -1,20 +1,32 @@
 import React from "react";
 
 import useShellStore from "shell/useShellStore";
-
 import "tailwindcss/tailwind.css";
 import ErrorBoundary from "../lib/ErrorBoundary";
 import LoginForm from "./LoginForm";
-import { goTo } from "../lib/utils";
+import { useToast } from "shell/ui/Toast/useToast";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { login } = useShellStore();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
   const handleLogin = (formValues: { email: string; password: string }) => {
-    login(formValues).then((res) => {
-      if (res && res.success) {
-        goTo("/pokemons");
-      }
-    });
+    login(formValues)
+      .then((res) => {
+        if (!res || !res.success) return;
+        navigate("/pokemons");
+      })
+      .catch((err) => {
+        if (err?.error?.message) {
+          toast({
+            title: "Error",
+            description: err.error.message,
+            variant: "destructive",
+          });
+        }
+      });
   };
 
   return (

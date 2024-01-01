@@ -54,7 +54,7 @@ export const createPokemonsSlice: ImmerStateCreator<PokemonsState> = (
           },
         };
       });
-      return err.response.data;
+      throw err;
     } finally {
       set((state) => {
         state.pokemonsState.fetching = false;

@@ -78,7 +78,7 @@ export const createUserSlice: ImmerStateCreator<UserState> = (
           error: { code: err?.name, message: err?.message },
         };
       });
-      return err;
+      throw err;
     } finally {
       set((state) => {
         state.userState.loginData.fetching = false;

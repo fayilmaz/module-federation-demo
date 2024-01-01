@@ -25,7 +25,7 @@ export const postApi = async (url: string, payload: any) => {
       if (error.response) {
         const { status } = error.response;
         if (status === 401 || status === 404) {
-          throw error;
+          throw error.response.data;
         }
       } else {
         throw new Error("An error occured while fetching data");
