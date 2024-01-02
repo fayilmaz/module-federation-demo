@@ -23,8 +23,9 @@ export type UserState = {
       cartId: string | null;
       access_token: string | null;
     };
+    login: (payload: loginPayload) => void;
+    resetLoginData: () => void;
   };
-  login: (payload: loginPayload) => void;
 };
 
 export const createUserSlice: ImmerStateCreator<UserState> = (
@@ -47,42 +48,53 @@ export const createUserSlice: ImmerStateCreator<UserState> = (
       cartId: null,
       access_token: null,
     },
-  },
-  login: async (payload) => {
-    try {
-      set((state) => {
-        state.userState.loginData.fetching = true;
-      });
+    login: async (payload) => {
+      try {
+        set((state) => {
+          state.userState.loginData.fetching = true;
+        });
 
-      const loginRes = await postApi("/auth/login", payload);
-      if (loginRes?.data?.user) {
-        localStorage.setItem("jwtToken", loginRes.data.access_token);
+        const loginRes = await postApi("/auth/login", payload);
+        if (loginRes?.data?.user) {
+          localStorage.setItem("jwtToken", loginRes.data.access_token);
+          set((state) => {
+            state.userState.loginData = {
+              ...state.userState.loginData,
+              data: loginRes.data,
+              announcements: [],
+              success: true,
+              error: null,
+            };
+          });
+        }
+        return loginRes;
+      } catch (err: AxiosError | any) {
         set((state) => {
           state.userState.loginData = {
             ...state.userState.loginData,
-            data: loginRes.data,
+            data: {},
             announcements: [],
-            success: true,
-            error: null,
+            success: false,
+            error: { code: err?.name, message: err?.message },
           };
         });
+        throw err;
+      } finally {
+        set((state) => {
+          state.userState.loginData.fetching = false;
+        });
       }
-      return loginRes;
-    } catch (err: AxiosError | any) {
+    },
+    resetLoginData: () => {
       set((state) => {
         state.userState.loginData = {
-          ...state.userState.loginData,
           data: {},
           announcements: [],
+          fetching: false,
           success: false,
-          error: { code: err?.name, message: err?.message },
+          error: null,
         };
       });
-      throw err;
-    } finally {
-      set((state) => {
-        state.userState.loginData.fetching = false;
-      });
-    }
+    },
   },
 });

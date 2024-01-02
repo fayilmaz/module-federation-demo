@@ -1,13 +1,19 @@
 import React from "react";
 import MainNav from "./MainNav";
 import Logo from "../../public/assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "shell/ui/Button";
 import useShellStore from "shell/useShellStore";
 import UserDropDownMenu from "./UserDropDownMenu";
 
 const Header = () => {
   const { userState } = useShellStore();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    userState.resetLoginData();
+    navigate("/");
+  };
+
   const isLoggedIn = userState.loginData?.data?.user?.email;
   return (
     <header className="h-20 bg-red-600 text-white">
@@ -24,7 +30,7 @@ const Header = () => {
               </Button>
             </Link>
             {isLoggedIn ? (
-              <UserDropDownMenu />
+              <UserDropDownMenu handleLogout={handleLogout} />
             ) : (
               <Link key="login" to="/auth/login">
                 <Button variant="outline" className="text-black">

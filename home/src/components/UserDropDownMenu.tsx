@@ -12,7 +12,11 @@ import { Button } from "shell/ui/Button";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 
-const UserDropDownMenu = () => {
+interface IProps {
+  handleLogout: () => void;
+}
+
+const UserDropDownMenu = (props: IProps) => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -28,6 +32,7 @@ const UserDropDownMenu = () => {
                   <Button
                     variant="outline"
                     className="border-2 bg-gray-100 hover:bg-white"
+                    onClick={props.handleLogout}
                   >
                     Logout
                   </Button>

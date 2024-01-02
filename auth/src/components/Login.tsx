@@ -8,12 +8,13 @@ import { useToast } from "shell/ui/Toast/useToast";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { login } = useShellStore();
+  const { userState } = useShellStore();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleLogin = (formValues: { email: string; password: string }) => {
-    login(formValues)
+    userState
+      .login(formValues)
       .then((res) => {
         if (!res || !res.success) return;
         navigate("/pokemons");
