@@ -16,8 +16,6 @@ export class Pokemon {
   @ApiProperty()
   weight: string;
   @ApiProperty()
-  @ApiProperty()
-  @ApiProperty()
   gender_ratio: { male: number; female: number };
   @ApiProperty()
   evolution: {
@@ -36,7 +34,7 @@ export class Pokemon {
   @ApiProperty()
   image: string;
   @ApiProperty()
-  price: string;
+  price: number;
   @ApiProperty()
   availability: string;
   @ApiProperty()

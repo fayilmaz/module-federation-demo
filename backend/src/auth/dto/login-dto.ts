@@ -8,7 +8,7 @@ export class LoginDto {
   announcementList: Announcement[] | [];
   @ApiProperty({
     example: {
-      user: { email: 'test@email.com', name: 'null' },
+      user: { email: 'example@example.com', name: 'null' },
       access_token: 'access_token_string',
     },
   })

@@ -63,7 +63,7 @@ export class Pokemon {
   @Prop()
   image: string;
   @Prop()
-  price: string;
+  price: number;
   @Prop()
   availability: string;
   @Prop()

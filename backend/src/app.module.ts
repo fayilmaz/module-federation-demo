@@ -7,6 +7,8 @@ import { StatusModule } from './status/status.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
+import { CartModule } from './cart/cart.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     StatusModule,
     AuthModule,
+    CartModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
