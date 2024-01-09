@@ -1,11 +1,17 @@
 import React from "react";
 import { Button } from "shell/ui/Button";
 
-const AddToCartButton = () => {
+interface IProps {
+  handleAddToCart: (notInCart?: boolean) => void;
+}
+
+const AddToCartButton = (props: IProps) => {
   return (
     <Button
       variant="destructive"
-      onClick={() => console.log("clicked add to cart")}
+      onClick={() => {
+        props.handleAddToCart(true);
+      }}
     >
       Add
     </Button>

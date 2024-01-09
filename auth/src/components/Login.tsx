@@ -8,7 +8,7 @@ import { useToast } from "shell/ui/Toast/useToast";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { userState } = useShellStore();
+  const { userState, cartState } = useShellStore();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -16,11 +16,24 @@ const Login = () => {
     userState
       .login(formValues)
       .then((res) => {
-        if (!res || !res.success) return;
-        navigate("/pokemons");
+        if (!res.success) return;
+        cartState
+          .getCart(res.data.user.email)
+          .then((res) => {
+            navigate("/pokemons");
+          })
+          .catch((err) => {
+            if (err?.message) {
+              toast({
+                title: "Error",
+                description: err.error.message,
+                variant: "destructive",
+              });
+            }
+          });
       })
       .catch((err) => {
-        if (err?.error?.message) {
+        if (err?.message) {
           toast({
             title: "Error",
             description: err.error.message,

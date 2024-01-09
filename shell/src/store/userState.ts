@@ -23,8 +23,10 @@ export type UserState = {
       cartId: string | null;
       access_token: string | null;
     };
+    resetUserState: () => void;
     login: (payload: loginPayload) => void;
     resetLoginData: () => void;
+    setUserInformations: (userData: any) => void;
   };
 };
 
@@ -48,6 +50,24 @@ export const createUserSlice: ImmerStateCreator<UserState> = (
       cartId: null,
       access_token: null,
     },
+    resetUserState: () => {
+      set((state) => {
+        state.userState.loginData = {
+          data: {},
+          announcements: [],
+          fetching: false,
+          success: false,
+          error: null,
+        };
+        state.userState.userInformations = {
+          email: null,
+          name: null,
+          surname: null,
+          cartId: null,
+          access_token: null,
+        };
+      });
+    },
     login: async (payload) => {
       try {
         set((state) => {
@@ -64,6 +84,10 @@ export const createUserSlice: ImmerStateCreator<UserState> = (
               announcements: [],
               success: true,
               error: null,
+            };
+            state.userState.userInformations = {
+              ...state.userState.userInformations,
+              email: loginRes.data.user.email,
             };
           });
         }
@@ -93,6 +117,14 @@ export const createUserSlice: ImmerStateCreator<UserState> = (
           fetching: false,
           success: false,
           error: null,
+        };
+      });
+    },
+    setUserInformations: (userData: any) => {
+      set((state) => {
+        state.userState.userInformations = {
+          ...state.userState.userInformations,
+          ...userData,
         };
       });
     },

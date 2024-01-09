@@ -4,16 +4,73 @@ import DisplayPrice from "./DisplayPrice";
 import AddToCartButton from "./AddToCartButton";
 import { SetCountWithBadge } from "./SetCountWithBadge";
 import { cn } from "../../lib/utils";
+import useShellStore from "shell/useShellStore";
+import { useToast } from "shell/ui/Toast/useToast";
 
 interface IProps {
   pokemon: IPokemon | null;
-  inCartCount?: number | null;
 }
 
-const ProductCard = ({ pokemon, inCartCount = 0 }: IProps) => {
-  if (pokemon?.id === 25) {
-    inCartCount = 2;
-  }
+const ProductCard = ({ pokemon }: IProps) => {
+  const { toast } = useToast();
+
+  const {
+    cartState,
+    userState: { userInformations },
+  } = useShellStore();
+
+  const handleAddToCart = (newAdded: boolean = false, quantity: number = 1) => {
+    const payload = {
+      userEmail: userInformations.email,
+      pokemonId: pokemon?.id,
+      quantity,
+    };
+    cartState
+      .addToCart(payload)
+      .then((res) => {
+        // TODO: implement backend message for success
+        toast({
+          description: "successfully added to cart",
+          variant: "success",
+        });
+        if (newAdded) cartState.getCart(userInformations.email);
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: error?.message,
+          variant: "destructive",
+        });
+      });
+  };
+
+  const handleRemoveWithQuantity = (quantity: number = 1) => {
+    const payload = {
+      userEmail: userInformations.email,
+      pokemonId: pokemon?.id,
+      quantity,
+    };
+    try {
+      cartState.removeWithQuantity(payload).then((res) => {
+        // TODO: implement backend message for success
+        toast({
+          description: "successfully removed from cart",
+          variant: "success",
+        });
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error?.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  let inCartCount = cartState.cartItems?.find((item: any) => {
+    return item.pokemonId == pokemon?.id;
+  })?.quantity;
+
   return (
     <div className="rounded mb-8 shadow-md">
       {pokemon ? (
@@ -24,7 +81,7 @@ const ProductCard = ({ pokemon, inCartCount = 0 }: IProps) => {
           >
             <img
               className="h-48 w-full object-cover object-center p-5 cursor-pointer"
-              src="https://picsum.photos/500/300"
+              src={`http://localhost:4005/images/${pokemon.image}`}
               alt={`${pokemon.name}-image`}
             />
             <div className="px-4 pt-4 cursor-pointer">
@@ -39,7 +96,7 @@ const ProductCard = ({ pokemon, inCartCount = 0 }: IProps) => {
           <div className="p-4">
             <div className="flex items-center">
               <div className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">
-                <DisplayPrice price="100.00" />
+                <DisplayPrice price={pokemon.price} />
               </div>
               <div
                 className={cn(
@@ -48,9 +105,13 @@ const ProductCard = ({ pokemon, inCartCount = 0 }: IProps) => {
                 )}
               >
                 {!!inCartCount ? (
-                  <SetCountWithBadge inCartCount={inCartCount} />
+                  <SetCountWithBadge
+                    inCartCount={inCartCount}
+                    handleAddToCart={handleAddToCart}
+                    handleRemoveWithQuantity={handleRemoveWithQuantity}
+                  />
                 ) : (
-                  <AddToCartButton />
+                  <AddToCartButton handleAddToCart={handleAddToCart} />
                 )}
               </div>
             </div>

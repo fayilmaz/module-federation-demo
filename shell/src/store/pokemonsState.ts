@@ -4,13 +4,16 @@ import { IPokemon, ImmerStateCreator } from "./types";
 
 export type PokemonsState = {
   pokemonsState: {
-    data: { pokemons: IPokemon[] } | Record<string, never>;
-    announcements: { code: string; message: string }[] | [];
-    fetching: boolean;
-    success: boolean | null;
-    error: { message: string } | null;
+    getPokemonsData: {
+      data: { pokemons: IPokemon[] } | Record<string, never>;
+      announcements: { code: string; message: string }[] | [];
+      fetching: boolean;
+      success: boolean | null;
+      error: { message: string } | null;
+    };
+    resetPokemonsState: () => void;
+    getPokemons: () => void;
   };
-  getPokemons: () => void;
 };
 
 export const createPokemonsSlice: ImmerStateCreator<PokemonsState> = (
@@ -19,46 +22,61 @@ export const createPokemonsSlice: ImmerStateCreator<PokemonsState> = (
   store
 ) => ({
   pokemonsState: {
-    data: {},
-    announcements: [],
-    fetching: false,
-    success: false,
-    error: null,
-  },
-  getPokemons: async () => {
-    try {
+    getPokemonsData: {
+      data: {},
+      announcements: [],
+      fetching: false,
+      success: false,
+      error: null,
+    },
+    resetPokemonsState: () => {
       set((state) => {
-        state.pokemonsState.fetching = true;
-      });
-
-      const pokemonsRes = await getApi("/pokemons");
-      if (pokemonsRes?.data?.pokemons) {
-        set((state) => ({
-          pokemonsState: {
-            data: pokemonsRes?.data,
-            announcements: pokemonsRes?.announcementList,
-            success: true,
-            error: null,
-          },
-        }));
-        return pokemonsRes;
-      }
-    } catch (err: AxiosError | any) {
-      set((state) => {
-        return {
-          pokemonsState: {
-            data: {},
-            announcements: [],
-            success: false,
-            error: { code: err?.name, message: err?.message },
-          },
+        state.pokemonsState.getPokemonsData = {
+          data: {},
+          announcements: [],
+          fetching: false,
+          success: false,
+          error: null,
         };
       });
-      throw err;
-    } finally {
-      set((state) => {
-        state.pokemonsState.fetching = false;
-      });
-    }
+    },
+    getPokemons: async () => {
+      try {
+        set((state) => {
+          state.pokemonsState.getPokemonsData.fetching = true;
+        });
+
+        const pokemonsRes = await getApi("/pokemons");
+        if (pokemonsRes?.data?.pokemons) {
+          set((state) => {
+            state.pokemonsState.getPokemonsData = {
+              ...state.pokemonsState.getPokemonsData,
+              data: pokemonsRes?.data,
+              announcements: pokemonsRes?.announcementList,
+              success: true,
+              error: null,
+            };
+          });
+          return pokemonsRes;
+        }
+      } catch (err: AxiosError | any) {
+        set((state) => {
+          set((state) => {
+            state.pokemonsState.getPokemonsData = {
+              data: {},
+              announcements: [],
+              fetching: false,
+              success: false,
+              error: null,
+            };
+          });
+        });
+        throw err;
+      } finally {
+        set((state) => {
+          state.pokemonsState.getPokemonsData.fetching = false;
+        });
+      }
+    },
   },
 });

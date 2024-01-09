@@ -7,14 +7,17 @@ import useShellStore from "shell/useShellStore";
 import UserDropDownMenu from "./UserDropDownMenu";
 
 const Header = () => {
-  const { userState } = useShellStore();
+  const { userState, cartState } = useShellStore();
   const navigate = useNavigate();
   const handleLogout = () => {
-    userState.resetLoginData();
+    userState.resetUserState();
+    cartState.resetCartState();
+    localStorage.removeItem("jwtToken");
     navigate("/");
   };
 
-  const isLoggedIn = userState.loginData?.data?.user?.email;
+  const isLoggedIn =
+    userState.loginData.data?.user?.email || userState.userInformations.email;
   return (
     <header className="h-20 bg-red-600 text-white">
       <div className="mx-auto w-3/4">

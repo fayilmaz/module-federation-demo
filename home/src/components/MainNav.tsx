@@ -1,27 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { cn } from "../lib/utils";
 
 const MainNav = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) => {
+  const navItemsBaseClassName =
+    "text-m font-medium text-muted-foreground transition-colors hover:underline";
+
   const navItems = [
     {
       href: "/",
-      className: "text-m font-medium transition-colors hover:text-yellow-400",
       label: "Home",
     },
     {
       href: "/pokemons",
-      className:
-        "text-m font-medium text-muted-foreground transition-colors hover:text-white",
       label: "Pokemons",
     },
     {
       href: "/checkout",
-      className:
-        "text-m font-medium text-muted-foreground transition-colors hover:text-white",
       label: "Checkout",
     },
   ];
@@ -31,13 +29,17 @@ const MainNav = ({
       <div className="px-2 flex-3 flex gap-4">
         {navItems.map((item, i) => {
           return (
-            <Link
+            <NavLink
               key={item.label}
               to={item.href}
-              className={cn(item.className, "")}
+              className={({ isActive }) => {
+                return isActive
+                  ? cn(navItemsBaseClassName, "text-yellow-300")
+                  : cn(navItemsBaseClassName, "text-white");
+              }}
             >
               {item.label}
-            </Link>
+            </NavLink>
           );
         })}
       </div>

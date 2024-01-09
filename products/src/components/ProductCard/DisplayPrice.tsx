@@ -1,11 +1,11 @@
 import React from "react";
 import PokemonDollar from "../svg/PokemonDollar";
 type DisplayPriceProps = {
-  price: string | null;
+  price: number;
 };
 
 const DisplayPrice = (props: DisplayPriceProps) => {
-  const formattedPrice = props.price ? props.price : "0.00";
+  const formattedPrice = props.price ? props.price : "-";
   return (
     <div>
       <span>
